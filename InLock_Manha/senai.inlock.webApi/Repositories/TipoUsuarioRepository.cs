@@ -18,7 +18,7 @@ namespace senai.inlock.webApi.Repositories
                 string queryUpdate = "UPDATE TipoUsuario SET titulo = @titulo WHERE idTipoUsuario = @Id";
                 using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
                 {
-                    cmd.Parameters.AddWithValue("@valor", tipoUsuarioAtualizado.titulo);
+                    cmd.Parameters.AddWithValue("@titulo", tipoUsuarioAtualizado.titulo);
                     cmd.Parameters.AddWithValue("@Id", id);
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -41,7 +41,7 @@ namespace senai.inlock.webApi.Repositories
                     {
                         TipoUsuarioDomain tipoUsuarioBuscado = new TipoUsuarioDomain
                         {
-                            idTipoUsuario = Convert.ToInt32(rdr["idJogos"]),
+                            idTipoUsuario = Convert.ToInt32(rdr["idTipoUsuario"]),
                             titulo = rdr["titulo"].ToString()
                         };
                         return tipoUsuarioBuscado;
@@ -97,7 +97,7 @@ namespace senai.inlock.webApi.Repositories
                         TipoUsuarioDomain tipoUsuario = new TipoUsuarioDomain()
                         {
                             idTipoUsuario = Convert.ToInt32(rdr["idTipoUsuario"]),
-                            titulo = rdr["email"].ToString()
+                            titulo = rdr["titulo"].ToString()
                         };
                         tipo.Add(tipoUsuario);
                     }

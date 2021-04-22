@@ -22,6 +22,7 @@ namespace senai.inlock.webApi.Controllers
         {
             _estudiosRepository = new EstudiosRepository();
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult Get()
@@ -29,6 +30,7 @@ namespace senai.inlock.webApi.Controllers
             List<EstudiosDomain> listaEstudios = _estudiosRepository.ListarTodos();
             return Ok(listaEstudios);
         }
+
         [Authorize (Roles ="1")]
         [HttpPost]
         public IActionResult Post(EstudiosDomain novoEstudio)
@@ -36,6 +38,7 @@ namespace senai.inlock.webApi.Controllers
             _estudiosRepository.Cadastrar(novoEstudio);
             return StatusCode(201);
         }
+
         [HttpDelete]
         public IActionResult Delete(EstudiosDomain estudioDeletado)
         {
@@ -53,6 +56,7 @@ namespace senai.inlock.webApi.Controllers
             }
             return Ok(estudioBuscado);
         }
+
         [HttpPut("{id}")]
         public IActionResult PutUrl(EstudiosDomain estudioAtualizado, int id)
         {

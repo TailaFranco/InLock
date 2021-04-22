@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using senai.inlock.webApi.Domains;
@@ -28,7 +29,7 @@ namespace senai.inlock.webApi.Controllers
         public IActionResult Login(UsuarioDomain login)
         {
             UsuarioDomain usuarioBuscado = _usuarioRepository.BuscarPorEmailSenha(login.email, login.senha);
-            if(usuarioBuscado == null)
+            if (usuarioBuscado == null)
             {
                 return NotFound("E-mail ou senha inválidos!");
             }
@@ -56,6 +57,67 @@ namespace senai.inlock.webApi.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token)
             });
+        }
+        [Authorize(Roles = "1")]
+        [HttpGet]
+        public IActionResult Get()
+        {
+            List<UsuarioDomain> listaUsuarios = _usuarioRepository.ListarTodos();
+            return Ok(listaUsuarios);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpPost]
+        public IActionResult Post(UsuarioDomain novoUsuario)
+        {
+            _usuarioRepository.Cadastrar(novoUsuario);
+            return StatusCode(201);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete]
+        public IActionResult Delete(UsuarioDomain usuarioDeletado)
+        {
+            _usuarioRepository.Deletar(usuarioDeletado.idUsuario);
+            return StatusCode(204);
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            UsuarioDomain usuarioBuscado = _usuarioRepository.BuscarPorId(id);
+            if (usuarioBuscado == null)
+            {
+                return NotFound("Nenhum usuario foi encontrado!");
+            }
+            return Ok(usuarioBuscado);
+        }
+        [Authorize(Roles = "1")]
+        [HttpPut("{id}")]
+        public IActionResult PutUrl(UsuarioDomain usuarioAtualizado, int id)
+        {
+            UsuarioDomain usuarioBuscado = _usuarioRepository.BuscarPorId(id);
+            if (usuarioBuscado != null)
+            {
+                try
+                {
+                    _usuarioRepository.Atualizar(id, usuarioAtualizado);
+                    return NoContent();
+                }
+                catch (Exception erro)
+                {
+
+                    return BadRequest(erro);
+                }
+            }
+            return NotFound
+                    (
+                    new
+                    {
+                        mensagem = "Usuario não encontrado."
+                    }
+                    );
         }
     }
 }

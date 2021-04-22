@@ -70,10 +70,10 @@ namespace senai.inlock.webApi.Repositories
                     {
                         UsuarioDomain usuarioBuscado = new UsuarioDomain
                         {
-                            idUsuario = Convert.ToInt32(rdr["idEstudio"]),
+                            idUsuario = Convert.ToInt32(rdr["idUsuario"]),
                             idTipoUsuario = Convert.ToInt32(rdr["idTipoUsuario"]),
                             email = rdr["email"].ToString(),
-                            senha = rdr["email"].ToString()
+                            senha = rdr["senha"].ToString()
                         };
                         return usuarioBuscado;
                     }

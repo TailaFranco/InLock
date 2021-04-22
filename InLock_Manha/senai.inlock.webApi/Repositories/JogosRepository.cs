@@ -15,7 +15,7 @@ namespace senai.inlock.webApi.Repositories
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryUpdate = "UPDATE Jogos SET valor = @valor WHERE idJogos = @Id";
+                string queryUpdate = "UPDATE Jogos SET valor = @valor WHERE idJogo = @Id";
                 using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
                 {
                     cmd.Parameters.AddWithValue("@valor", jogoAtualizado.valor);
@@ -30,7 +30,7 @@ namespace senai.inlock.webApi.Repositories
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelectById = "SELECT * FROM Jogos WHERE idJogos =@Id";
+                string querySelectById = "SELECT * FROM Jogos WHERE idJogo =@Id";
                 con.Open();
                 SqlDataReader rdr;
                 using (SqlCommand cmd = new SqlCommand(querySelectById, con))
@@ -59,7 +59,7 @@ namespace senai.inlock.webApi.Repositories
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryInsert = "INSERT INTO Usuarios(idEstudio, nomeJogo, descricao, dataLancamento, valor) VALUES (@idEstudio, @nomeJogo, @descricao, @dataLancamento,@valor)";
+                string queryInsert = "INSERT INTO Jogos (idEstudio, nomeJogo, descricao, dataLancamento, valor) VALUES (@idEstudio, @nomeJogo, @descricao, @dataLancamento,@valor)";
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     cmd.Parameters.AddWithValue("@idEstudio", novoJogo.idEstudio);
@@ -77,7 +77,7 @@ namespace senai.inlock.webApi.Repositories
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryDelete = "DELETE FROM Jogos WHERE idJogos = @Id";
+                string queryDelete = "DELETE FROM Jogos WHERE idJogo = @Id";
                 using (SqlCommand cmd = new SqlCommand(queryDelete, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
